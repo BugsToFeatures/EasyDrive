@@ -52,7 +52,7 @@ const usersSchema = new mongoose.Schema({
     default: Date.now
   },
   cart: [{
-    item: { type: mongoose.Schema.Types.ObjectId, ref: 'CartItem', required: true },
+    item: { type: String, required: true },
     quantity: { type: Number, required: true, default: 1 },
   }],
   salt: {
