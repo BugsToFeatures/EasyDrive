@@ -1,4 +1,10 @@
 
+// Khalid Dawd
+//301144241
+
+
+
+
 const User = require('../models/users.model'); 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
