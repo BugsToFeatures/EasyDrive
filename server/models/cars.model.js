@@ -6,10 +6,11 @@ Date: November 10, 2023
 Description: defines data structure of cars schema, allows connect to database and operate on the data 
 */
 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
 
 const carsSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
   make: { 
     type: String, 
     required: 'Make is required'
@@ -63,4 +64,4 @@ const carsSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model('Cars', carsSchema);
+module.exports =  mongoose.model('Car', carsSchema);

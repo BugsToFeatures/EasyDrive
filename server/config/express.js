@@ -16,7 +16,7 @@ module.exports = function () {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(methodOverride());
-    app.use(require('../routes/testRouter'));
+    app.use('/api',require('../routes/shopRoutes'));
     app.use(express.static("./node_modules"));
 
     return app;
