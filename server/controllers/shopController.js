@@ -6,10 +6,12 @@ Date: November 11, 2023
 Description: Major CRUD operation related to vehicles.
 */
 
-const Car = require('../models/cars.model')
+const Car = require('../models/cars.model');
+const express = require('express');
+const router = express.Router();
 
-exports.showAllCars = (req,res) => {
-    Car.find().then(data => {
+exports.showAllCars = async (req,res) => {
+    await Car.find().then(data => {
         res.json(data)
     }).catch(err => {
         console.log(err);
