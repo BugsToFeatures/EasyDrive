@@ -83,7 +83,7 @@ usersSchema.path('hashed_password').validate(function(v) {
     }
 }, null);
 
-UserSchema.methods = {
+usersSchema.methods = {
   authenticate: function(plainText) {
   return this.encryptPassword(plainText) === this.hashed_password 
   },
