@@ -64,4 +64,5 @@ const carsSchema = new mongoose.Schema({
     },
 });
 
-module.exports =  mongoose.model('Car', carsSchema);
+//module.exports =  mongoose.model('Car', carsSchema);
+module.exports = mongoose.model('Car', carsSchema);

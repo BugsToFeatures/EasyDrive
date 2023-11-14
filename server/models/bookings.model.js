@@ -5,10 +5,12 @@ File: bookings.model.js
 Date: November 10, 2023
 Description: defines data structure of bookings, allows connect to database and operate on the data 
 */
-
-import mongoose from 'mongoose';
-import Users from './users.model';
-import Cars from './cars.model';
+const mongoose = require('mongoose');
+const Users = require('./users.model');
+const Cars = require('./cars.model');
+//import mongoose from 'mongoose';
+//import Users from './users.model';
+//import Cars from './cars.model';
 
 const bookingsSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -50,4 +52,5 @@ const bookingsSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model('Bookings', bookingsSchema);
+//export default mongoose.model('Bookings', bookingsSchema);
+module.exports = mongoose.model('Bookings', bookingsSchema);

@@ -6,7 +6,8 @@ Date: November 10, 2023
 Description: defines data structure of users, allows connect to database and operate on the data 
 */
 
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
+const mongoose = require('mongoose')
 
 //schema
 const usersSchema = new mongoose.Schema({
@@ -83,4 +84,5 @@ usersSchema.path('hashed_password').validate(function(v) {
 }, null);
 
 
-export default mongoose.model('Users', usersSchema);
+//export default mongoose.model('Users', usersSchema);
+module.exports = mongoose.model('Users', usersSchema);
