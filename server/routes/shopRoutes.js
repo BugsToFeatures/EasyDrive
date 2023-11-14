@@ -11,7 +11,7 @@ const router = express.Router();
 
 const shopController = require('../controllers/shopController')
 
-router.get('/show-all-car',shopController.showAllCars);
+router.get('/show-all-cars',shopController.showAllCars);
 router.post('/add-car',shopController.addCar);
 router.put('/edit-car/:carId',shopController.editCar);
 router.delete('/delete-car/:carId',shopController.deleteCar);
