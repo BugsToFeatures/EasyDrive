@@ -4,6 +4,7 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
       shopRoutes = require('../routes/shopRoutes'),
+      testRouter = require('../routes/testRouter'),
       userRoutes = require('../routes/userRoutes'); 
 
 module.exports = function () {
@@ -21,7 +22,7 @@ module.exports = function () {
 
     app.use('/api', shopRoutes);
     app.use('/users', userRoutes); 
-
+    app.use('/', testRouter); 
     app.use(express.static("./node_modules"));
 
     return app;
