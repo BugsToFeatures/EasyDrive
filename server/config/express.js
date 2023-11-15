@@ -22,7 +22,7 @@ module.exports = function () {
 
     app.use(express.static("node_modules"));
     app.use('/', shopRoutes);
-    app.use('/users', userRoutes); 
+    app.use('/', userRoutes); 
     app.use('/', testRouter); 
     
 
