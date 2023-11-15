@@ -8,10 +8,11 @@ Description: defines data structure of users, allows connect to database and ope
 
 //import mongoose from 'mongoose';
 const mongoose = require('mongoose')
+const crypto = require('crypto'); 
 
 //schema
 const usersSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  //_id: mongoose.Schema.Types.ObjectId,
   username: {
     type: String,
     trim: true,
@@ -24,10 +25,14 @@ const usersSchema = new mongoose.Schema({
     unique: 'Email already exists',
     match: [/.+\@.+\..+/, 'Please fill a valid email address'],
   },
-  hashed_password: {
+  /*hashed_password: {
     type: String,
     required: 'Password is required'
-    },    
+    },*/
+    password: {
+      type: String,
+      required: 'Password is required'
+    },   
   firstName: {
     type: String,
     trim: true,
@@ -63,7 +68,7 @@ const usersSchema = new mongoose.Schema({
 
 //authentication
 //create encryption
-usersSchema.virtual('password')
+/*usersSchema.virtual('password')
  .set(function(password) {
     this._password = password;
     this.salt = this.makeSalt();
@@ -71,21 +76,40 @@ usersSchema.virtual('password')
   })
   .get(function() {
     return this._password;
+  });*/
+  usersSchema.virtual('plainPassword')
+  .set(function(password) {
+    this._plainPassword = password;
+    this.salt = this.makeSalt();
+    this.password = this.encryptPassword(password); 
+  })
+  .get(function() {
+    return this._plainPassword;
   });
 
 //password validation
-usersSchema.path('hashed_password').validate(function(v) {
+/*usersSchema.path('hashed_password').validate(function(v) {
     if (this._password && this._password.length < 6) {
       this.invalidate('password', 'Password must be at least 6 characters.');
     }
     if (this.isNew && !this._password) {
       this.invalidate('password', 'Password is required');
     }
+}, null);*/
+
+usersSchema.path('password').validate(function(v) {
+  if (this._plainPassword && this._plainPassword.length < 6) {
+    this.invalidate('plainPassword', 'Password must be at least 6 characters.');
+  }
+  if (this.isNew && !this._plainPassword) {
+    this.invalidate('plainPassword', 'Password is required');
+  }
 }, null);
 
 usersSchema.methods = {
   authenticate: function(plainText) {
-  return this.encryptPassword(plainText) === this.hashed_password 
+ 
+  return this.encryptPassword(plainText) === this.password;
   },
   encryptPassword: function(password) { 
   if (!password) return ''
@@ -104,5 +128,5 @@ usersSchema.methods = {
   }
   
 
-//export default mongoose.model('Users', usersSchema);
+
 module.exports = mongoose.model('Users', usersSchema);
