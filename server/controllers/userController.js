@@ -13,10 +13,14 @@ const JWT_SECRET = process.env.JWT_SECRET; // Secret key for JWT, stored in envi
 
 exports.signup = async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
         const user = new User({
+            username: req.body.username,
             email: req.body.email,
-            password: hashedPassword
+            password: req.body.password, 
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            //  other fields to be added
         });
         await user.save();
         res.status(201).send('User created successfully');
