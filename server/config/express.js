@@ -20,8 +20,8 @@ module.exports = function () {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(methodOverride());
 
-    app.use(express.static("./node_modules"));
-    app.use('/api', shopRoutes);
+    app.use(express.static("node_modules"));
+    app.use('/', shopRoutes);
     app.use('/users', userRoutes); 
     app.use('/', testRouter); 
     
