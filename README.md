@@ -12,7 +12,7 @@
 ##Only After that send the request. Because I have applied both Authentication and Authorization.
 
 - (isAuth)    add Car: http://localhost:3000/api/add-car/
--             show Cars: http://localhost:3000/api/show-all-cars/
+- show Cars: http://localhost:3000/api/show-all-cars/
 - (isAuth)    show individual Cars: http://localhost:3000/api/show-car/{carId} (copy carId from database and paste it here at the end)
 - (isAuth)    edit Car: http://localhost:3000/api/edit-car/{carId} (copy carId from database and paste it here at the end)
 - (isAuth)    delete Car: http://localhost:3000/api/delete-car/{carId} (copy carId from database and paste it here at the end)
