@@ -25,10 +25,6 @@ const usersSchema = new mongoose.Schema({
     unique: 'Email already exists',
     match: [/.+\@.+\..+/, 'Please fill a valid email address'],
   },
-  /*hashed_password: {
-    type: String,
-    required: 'Password is required'
-    },*/
     password: {
       type: String,
       required: 'Password is required'
@@ -57,76 +53,16 @@ const usersSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  cart: [{
-    item: { type: String, required: true },
-    quantity: { type: Number, required: true, default: 1 },
-  }],
+  cart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Car'
+    }
+  ],
   salt: {
     type: String
   }
 });
-
-//authentication
-//create encryption
-/*usersSchema.virtual('password')
- .set(function(password) {
-    this._password = password;
-    this.salt = this.makeSalt();
-    this.hashed_password = this.encryptPassword(password)
-  })
-  .get(function() {
-    return this._password;
-  });*/
-  usersSchema.virtual('plainPassword')
-  .set(function(password) {
-    this._plainPassword = password;
-    this.salt = this.makeSalt();
-    this.password = this.encryptPassword(password); 
-  })
-  .get(function() {
-    return this._plainPassword;
-  });
-
-//password validation
-/*usersSchema.path('hashed_password').validate(function(v) {
-    if (this._password && this._password.length < 6) {
-      this.invalidate('password', 'Password must be at least 6 characters.');
-    }
-    if (this.isNew && !this._password) {
-      this.invalidate('password', 'Password is required');
-    }
-}, null);*/
-
-usersSchema.path('password').validate(function(v) {
-  if (this._plainPassword && this._plainPassword.length < 6) {
-    this.invalidate('plainPassword', 'Password must be at least 6 characters.');
-  }
-  if (this.isNew && !this._plainPassword) {
-    this.invalidate('plainPassword', 'Password is required');
-  }
-}, null);
-
-usersSchema.methods = {
-  authenticate: function(plainText) {
- 
-  return this.encryptPassword(plainText) === this.password;
-  },
-  encryptPassword: function(password) { 
-  if (!password) return ''
-  try {
-  return crypto
-  .createHmac('sha1', this.salt) 
-  .update(password)
-  .digest('hex') 
-  } catch (err) {
-  return '' 
-  }
-  },
-  makeSalt: function() {
-  return Math.round((new Date().valueOf() * Math.random())) + '' 
-  }
-  }
-  
 
 
 module.exports = mongoose.model('Users', usersSchema);

@@ -21,9 +21,9 @@ module.exports = function () {
     app.use(methodOverride());
 
     app.use(express.static("node_modules"));
-    app.use('/', shopRoutes);
-    app.use('/', userRoutes); 
-    app.use('/', testRouter); 
+    app.use('/api', shopRoutes);
+    app.use('/user', userRoutes); 
+    app.use('/api', testRouter); 
     
 
     return app;

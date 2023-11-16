@@ -11,16 +11,16 @@ const router = express.Router();
 
 const shopController = require('../controllers/shopController');
 const userController = require('../controllers/userController');
+const isAuth = require('../middleware/is-auth')
 
 router.get('/show-all-cars',shopController.showAllCars);
-router.post('/add-car',shopController.addCar);
-router.put('/edit-car/:carId',shopController.editCar);
-router.delete('/delete-car/:carId',shopController.deleteCar);
-router.get('/show-car/:carId',shopController.showIndividualCar);
-router.post('/signup', userController.signup);
-router.get('/login', userController.login)
-// router.post('/add-to-cart/:carId');
-// router.get('/show-cart');
+router.post('/add-car',isAuth,shopController.addCar);
+router.put('/edit-car/:carId',isAuth,shopController.editCar);
+router.delete('/delete-car/:carId',isAuth,shopController.deleteCar);
+router.get('/show-car/:carId',isAuth,shopController.showIndividualCar);
+router.post('/add-to-cart/:carId',isAuth,shopController.addToCart);
+router.get('/show-cart',isAuth,shopController.showCart);
+router.delete('/remove-from-cart/:carId',isAuth,shopController.removeFromCart)
 
 
 module.exports = router
