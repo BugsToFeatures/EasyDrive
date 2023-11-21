@@ -2,6 +2,7 @@ const express = require('express'),
       morgan = require('morgan'),
       compress = require('compression'),
       bodyParser = require('body-parser'),
+      cors = require('cors'),
       methodOverride = require('method-override'),
       shopRoutes = require('../routes/shopRoutes'),
       testRouter = require('../routes/testRouter'),
@@ -15,6 +16,12 @@ module.exports = function () {
     } else if (process.env.NODE_ENV === 'production') {
         app.use(compress());
     }
+    const corsOptions ={
+        origin:'http://localhost:3001', 
+        credentials:true,
+        optionSuccessStatus:200
+    }
+    app.use(cors(corsOptions));
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
