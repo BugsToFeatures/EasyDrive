@@ -50,12 +50,21 @@ const CarDetails = () => {
 
   return (
     <div>
-      <h1>{carDetails.model}</h1>
-      <p>Year: {carDetails.year}</p>
-      <p>Price: ${carDetails.price}</p>
-      {/* Add other details here */}
+        <h1>{carDetails.model}</h1>
+        <img src={car.imageUrl} alt={`${car.make} ${car.model}`} style={{ width: '200px', height: '120px' }} />
+        <h3>{car.make} {car.model}</h3>
+        <p>Year: {car.year}</p>
+        <p>Type: {car.type}</p>
+        <p>Color: {car.color}</p>
+        <p>Mileage: {car.mileage} km</p>
+        <p>Fuel Type: {car.fuelType}</p>
+        <p>Transmission: {car.transmission}</p>
+        <p>Daily Price: ${car.dailyPrice}</p>
+        <p>{car.available ? 'Available' : 'Not Available'}</p>
 
       <button onClick={addToCart}>Add to Cart</button>
     </div>
   );
 };
+
+export default CarDetails;
