@@ -4,6 +4,8 @@ import { AuthProvider } from './Contexts/authContext'
 import Login from './Components/loginComponent'
 import Signup from './Components/signupComponent';
 import Navigation from './Components/navigation';
+import Car from './Components/carComponent';
+import Cars from './Components/carsList';
 
 function App() {
     const { currentUser } = useAuth();
@@ -15,6 +17,8 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/show-all-cars" element={<Cars />} />
+                    <Route path="/show-car" element={<Car />} />
                     {/* other routes  */}
                 </Routes>
             </Router>
