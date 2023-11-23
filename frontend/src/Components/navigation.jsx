@@ -1,28 +1,42 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {useAuth} from '../Components/authContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../Contexts/authContext';
 import '../App.css';
 
 const Navigation = () => {
-    const {currentUser, logout } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { currentUser, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
         <nav>
             <ul>
-                <li><Link to="/">Home</Link></li>
                 {currentUser ? (
                     <>
-                        <li><Link to="/cars">All Cars</Link></li>
-                        <li><Link to="/cart">Cart</Link></li>
+                        <li><Link to="/show-all-cars">All Cars</Link></li>
+                        <li><Link to="/show-cart">Cart</Link></li>
                         <li><Link to="/orders">Orders</Link></li>
-                        <li OnClick={logout}><Link to="/">Logout</Link></li>
+                        <li><Link to="/add-car">Add New Car</Link></li>
+                        <li><button onClick={handleLogout}>Logout</button></li>
                     </>
                 ) : (
                     <>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/signup">Signup</Link></li>
+                        {location.pathname === '/login' && <li><Link to="/signup">Signup</Link></li>}
+                        {location.pathname === '/signup' && <li><Link to="/login">Login</Link></li>}
+                        {(location.pathname !== '/login' && location.pathname !== '/signup') && (
+                            <>
+                                <li><Link to="/login">Login</Link></li>
+                                <li><Link to="/signup">Signup</Link></li>
+                            </>
+                        )}
                     </>
                 )}
+                <li><Link to="/">Home</Link></li>
             </ul>
         </nav>
     );

@@ -138,7 +138,7 @@ exports.deleteCar = (req,res) => {
     }
 }
 
-exports.addToCart = (req,res) => {
+exports.addToCart = async (req,res) => {
     if(req.userId){
         const carId = req.params.carId;
         Car.findOne({_id:carId})
@@ -171,8 +171,6 @@ exports.removeFromCart = (req,res) => {
         User.findOne({_id:req.userId})
           .then(user => {
             console.log(user)
-            // user.cart.pull(carId)
-            // return user.save();
             const index = user.cart.indexOf(carId);
                     if (index > -1) {
                         user.cart.splice(index, 1);
@@ -192,18 +190,22 @@ exports.removeFromCart = (req,res) => {
     }
 }
 
+exports.showCart = async (req, res) => {
+    if (req.userId) {
+        try {
+            const user = await User.findOne({ _id: req.userId });
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+            const carPromises = user.cart.map(item => Car.findById(item));
+            const cars = await Promise.all(carPromises);
 
-exports.showCart = (req,res) => {
-    if(req.userId){
-        User.findOne({_id:req.userId}).then(user => {
-            res.json(user.cart)
-        }).catch(err => {
-            console.log(err)
-        })
+            res.json(cars);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    } else {
+        res.status(401).json({ error: "User not logged in" });
     }
-    else{
-        res.json({"Error":"User Not Logged In"})
-    }
-
-}
-
+};

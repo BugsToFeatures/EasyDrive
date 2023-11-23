@@ -7,12 +7,13 @@ Description: defines data structure of users, allows connect to database and ope
 */
 
 //import mongoose from 'mongoose';
-const mongoose = require('mongoose')
-const crypto = require('crypto'); 
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
 
 //schema
-const usersSchema = new mongoose.Schema({
-  //_id: mongoose.Schema.Types.ObjectId,
+const usersSchema = new Schema({
   username: {
     type: String,
     trim: true,
@@ -53,16 +54,9 @@ const usersSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  cart: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Car'
-    }
-  ],
-  salt: {
-    type: String
-  }
+  cart: [Schema.Types.ObjectId]
 });
 
 
-module.exports = mongoose.model('Users', usersSchema);
+
+module.exports = mongoose.model('User', usersSchema);

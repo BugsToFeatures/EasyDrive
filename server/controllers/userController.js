@@ -24,7 +24,8 @@ exports.signup = (req, res, next) => {
         password: hashedPw,
         firstName:firstName,
         lastName:lastName,
-        phone: phone
+        phone: phone,
+        cart: []
       });
       return user.save();
     })

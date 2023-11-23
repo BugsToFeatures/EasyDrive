@@ -13,7 +13,7 @@ const shopController = require('../controllers/shopController');
 const userController = require('../controllers/userController');
 const isAuth = require('../middleware/is-auth')
 
-router.get('/show-all-cars',shopController.showAllCars);
+router.get('/show-all-cars',isAuth,shopController.showAllCars);
 router.post('/add-car',isAuth,shopController.addCar);
 router.put('/edit-car/:carId',isAuth,shopController.editCar);
 router.delete('/delete-car/:carId',isAuth,shopController.deleteCar);

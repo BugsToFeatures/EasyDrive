@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 
+
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -12,7 +13,6 @@ export function AuthProvider({ children }) {
 
     const login = (user) => {
         setCurrentUser(user);
-        console.log(user)
         localStorage.setItem('token', user.token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
     };
@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         setCurrentUser(null);
         localStorage.removeItem('token');
+        
     };
 
     const value = {

@@ -1,23 +1,16 @@
-
-//This component fetches the list of cars from our API and displays them:
-//Khalid Dawd
-//301144241
-//2023/11/22
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const CarsList = () => {
-  const [cars, setCars] = useState([]);
+const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/show-all-cars')
+    // Fetch the cart items for the logged-in user
+    axios.get('http://localhost:3000/api/show-cart') // Replace with your actual API endpoint
       .then(response => {
-        setCars(response.data);
+        setCartItems(response.data);
         setIsLoading(false);
       })
       .catch(error => {
@@ -25,10 +18,6 @@ const CarsList = () => {
         setIsLoading(false);
       });
   }, []);
-
-  const seeCar = (id) => {
-    navigate(`/show-car/${id}`);
-  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -40,9 +29,10 @@ const CarsList = () => {
 
   return (
     <div>
-      <h2>Available Cars for Rent</h2>
-      <div>
-        {cars.map(car => (
+      <h2>Your Cart</h2>
+      
+        <div>
+        {cartItems.map(car => (
           <div key={car._id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
             <img src={car.imageUrl} alt={`${car.make} ${car.model}`} style={{ width: '200px', height: '120px' }} />
             <h3>{car.make} {car.model}</h3>
@@ -51,13 +41,13 @@ const CarsList = () => {
             <p>Color: {car.color}</p> 
             <p>Daily Price: ${car.dailyPrice}</p>
             <p>{car.available ? 'Available' : 'Not Available'}</p>
-            <button type="button" onClick={() => seeCar(car._id)}>See This Car</button>
+            <button type="button">Buy</button>
           </div>
         ))}
-      </div>
+        </div>
+      
     </div>
   );
 };
 
-export default CarsList;
-
+export default Cart;
