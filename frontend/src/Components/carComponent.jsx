@@ -10,6 +10,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Contexts/authContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const CarDetails = () => {
   const { carId } = useParams();
@@ -49,22 +51,26 @@ const CarDetails = () => {
   }
 
   return (
-    <div>
-        <h1>{carDetails.model}</h1>
-        <img src={carDetails.imageUrl} alt={`${carDetails.make} ${carDetails.model}`} style={{ width: '200px', height: '120px' }} />
-        <h3>{carDetails.make} {carDetails.model}</h3>
-        <p>Year: {carDetails.year}</p>
-        <p>Type: {carDetails.type}</p>
-        <p>Color: {carDetails.color}</p>
-        <p>Mileage: {carDetails.mileage} km</p>
-        <p>Fuel Type: {carDetails.fuelType}</p>
-        <p>Transmission: {carDetails.transmission}</p>
-        <p>Daily Price: ${carDetails.dailyPrice}</p>
-        <p>{carDetails.available ? 'Available' : 'Not Available'}</p>
-
-        <button onClick={() => addToCart(carDetails._id)}>Add to Cart</button>
+    <div className="container mt-5">
+        <div className="card">
+            <img src={carDetails.imageUrl} alt={`${carDetails.make} ${carDetails.model}`} className="card-img-top" style={{ height: '600px', objectFit: 'cover' }} />
+            <div className="card-body">
+                <h1 className="card-title">{carDetails.make} {carDetails.model}</h1>
+                <h3 className="card-subtitle mb-2 text-muted">Year: {carDetails.year}</h3>
+                <p className="card-text">Type: {carDetails.type}</p>
+                <p className="card-text">Color: {carDetails.color}</p>
+                <p className="card-text">Mileage: {carDetails.mileage} km</p>
+                <p className="card-text">Fuel Type: {carDetails.fuelType}</p>
+                <p className="card-text">Transmission: {carDetails.transmission}</p>
+                <p className="card-text">Daily Price: ${carDetails.dailyPrice}</p>
+                <p className="card-text">{carDetails.available ? 'Available' : 'Not Available'}</p>
+            </div>
+            <div className="card-footer">
+                <button className="btn btn-primary" onClick={() => addToCart(carDetails._id)}>Add to Cart</button>
+            </div>
+        </div>
     </div>
-  );
+);
 };
 
 export default CarDetails;

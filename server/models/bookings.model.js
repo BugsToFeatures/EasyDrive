@@ -6,31 +6,29 @@ Date: November 10, 2023
 Description: defines data structure of bookings, allows connect to database and operate on the data 
 */
 const mongoose = require('mongoose');
-const Users = require('./users.model');
-const Cars = require('./cars.model');
-//import mongoose from 'mongoose';
-//import Users from './users.model';
-//import Cars from './cars.model';
+const User = require('./users.model');
+const Car = require('./cars.model');
+
+mongoose.Promise = global.Promise
 
 const bookingsSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     user_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Users', 
+        type: mongoose.Types.ObjectId,
+        ref:'User',
         required: 'User ID is required' 
     },
     car_id: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Cars', 
+        type: mongoose.Types.ObjectId, 
+        Ref:'Car',
         required: 'Car ID is required' 
     },
-    startDate: { 
-        type: Date, 
-        required: 'Start is required' 
+    make: { 
+        type: String, 
+        required: 'Make is required'
     },
-    endDate: { 
-        type: Date, 
-        required: 'End date is required'  
+    model: { 
+        type: String, 
+        required: 'Model is required' 
     },
     totalCost: { 
         type: Number, 
@@ -38,8 +36,6 @@ const bookingsSchema = new mongoose.Schema({
     },
     status: { 
         type: String, 
-        enum: ['pending', 'confirmed', 'completed'], 
-        default: 'pending' ,
         required: 'Booking status is required' 
     },
     createdAt: { 
@@ -52,5 +48,4 @@ const bookingsSchema = new mongoose.Schema({
     },
 });
 
-//export default mongoose.model('Bookings', bookingsSchema);
 module.exports = mongoose.model('Bookings', bookingsSchema);

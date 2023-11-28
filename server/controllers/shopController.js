@@ -8,8 +8,10 @@ Description: Major CRUD operation related to vehicles.
 
 const Car = require('../models/cars.model');
 const User = require('../models/users.model')
+const Bookings = require('../models/bookings.model.js')
 const express = require('express');
-const router = express.Router();
+const mongoose = require('mongoose');
+
 
 exports.showAllCars = async (req,res) => {
     await Car.find().then(data => {
@@ -124,19 +126,32 @@ exports.editCar = (req,res) => {
     }
 }
 
-exports.deleteCar = (req,res) => {
+exports.deleteCar = (req, res) => {
     if(req.userId){
-        Car.deleteOne({"_id":req.params.carId}).then(msg => {
-            console.log({msg})
-            res.redirect('/api/show-all-cars')
-        }).catch(err => {
-            console.log(err)
+        const carId = req.params.carId;
+        User.updateMany(
+            { cart: carId },
+            { $pull: { cart: carId } }
+        )
+        .then(() => {
+            return Car.deleteOne({ "_id": carId });
         })
+        .then(() => {
+            return Booking.deleteMany({ car: carId });
+        })
+        .then(() => {
+            console.log(`Car with ID ${carId} deleted`);
+            res.redirect('/api/show-all-cars');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err.message });
+        });
     }
     else{
-        res.json({"Error":"User Not Logged In"})
+        res.json({"Error":"User Not Logged In"});
     }
-}
+};
 
 exports.addToCart = async (req,res) => {
     if(req.userId){
@@ -208,4 +223,108 @@ exports.showCart = async (req, res) => {
     } else {
         res.status(401).json({ error: "User not logged in" });
     }
+};
+
+exports.showBookings = async (req, res) => {
+    if (req.userId) {
+        try {
+            const user = await User.findOne({ _id: req.userId });
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+
+            const bookings = await Bookings.find({ user_id: user._id })
+                                           .populate('car_id')
+                                           .exec();
+ 
+            const bookingDetails = bookings.map(booking => ({
+                car_Id: booking.car_id,
+                car: booking.make+" "+booking.model, 
+                totalCost: booking.totalCost,
+                status: booking.status,
+                createdAt: booking.createdAt
+            }));
+            console.log(bookingDetails)
+            res.json(bookingDetails);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    } else {
+        res.status(401).json({ error: "User not logged in" });
+    }
+};
+
+exports.bookCar = async (req, res) => {
+    if (req.userId) {
+        try {
+            const { carId } = req.params;
+
+            console.log(carId)
+            const car = await Car.findById(carId);
+            if (!car) {
+                return res.status(404).json({ error: "Car not found" });
+            }
+
+            const user = await User.findOne({ _id: req.userId });
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+            if (!user.cart.includes(carId)) {
+                return res.status(400).json({ error: "Car is not in the user's cart" });
+            }
+            const newBooking = new Bookings({
+                user_id: req.userId,
+                car_id: carId,
+                make:car.make,
+                model:car.model,
+                totalCost: car.dailyPrice,
+                status: "Booked"
+            });
+
+            await newBooking.save();
+
+            user.cart = user.cart.filter(item => item.toString() !== carId.toString());
+            await user.save();
+
+            res.status(201).json({
+                message: "Car booked successfully",
+                carDetails: car,
+                bookingDetails: newBooking
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Server error" });
+        }
+    } else {
+        res.status(401).json({ error: "User not logged in" });
+    }
+};
+
+exports.getProfile = (req, res, next) => {
+    const userId = req.userId;
+    console.log(userId);
+    User.findOne({ _id: req.userId })
+        .then(user => {
+            if (!user) {
+                const error = new Error('User not found.');
+                error.statusCode = 404;
+                throw error;
+            }
+
+            res.status(200).json({
+                username: user.username,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                createdAt:user.createdAt
+            });
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        });
 };

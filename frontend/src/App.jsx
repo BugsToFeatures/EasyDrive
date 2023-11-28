@@ -8,15 +8,18 @@ import CarDetails from './Components/carComponent';
 import Cars from './Components/carsList';
 import Cart from './Components/CartComponent'
 import CarAddForm from './Components/AddCarComponent';
+import BookingsList from './Components/bookingsListComponent';
+import Admin from './Components/AdminComponent'
+import Home from './Components/HomeComponent'
+import UserProfile from './Components/ProfileComponent';
 
 function App() {
-    // const { currentUser } = useAuth();
-
     return (
         <AuthProvider>
             <Router>
                 <Navigation />
                 <Routes>
+                    <Route path="/" element={<Home />}/>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/show-all-cars" element={<Cars />} />
@@ -24,6 +27,10 @@ function App() {
                     <Route path='/show-cart' element={< Cart />} />
                     <Route path="/add-to-cart/:carId" />
                     <Route path="/add-car" element={<CarAddForm />} />
+                    <Route path="/show-bookings" element={<BookingsList />} />
+                    <Route path="/bookACar/:carId" />
+                    <Route path='/admin' element={<Admin />} />
+                    <Route path='/myprofile' element={<UserProfile />} />
                     {/* other routes  */}
                 </Routes>
             </Router>

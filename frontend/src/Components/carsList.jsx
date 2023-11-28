@@ -7,6 +7,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const CarsList = () => {
   const [cars, setCars] = useState([]);
@@ -39,24 +41,30 @@ const CarsList = () => {
   }
 
   return (
-    <div>
-      <h2>Available Cars for Rent</h2>
-      <div>
-        {cars.map(car => (
-          <div key={car._id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-            <img src={car.imageUrl} alt={`${car.make} ${car.model}`} style={{ width: '200px', height: '120px' }} />
-            <h3>{car.make} {car.model}</h3>
-            <p>Year: {car.year}</p>
-            <p>Type: {car.type}</p>
-            <p>Color: {car.color}</p> 
-            <p>Daily Price: ${car.dailyPrice}</p>
-            <p>{car.available ? 'Available' : 'Not Available'}</p>
-            <button type="button" onClick={() => seeCar(car._id)}>See This Car</button>
-          </div>
-        ))}
-      </div>
+    <div className="container mt-5">
+        <h2 className="mb-4 text-center">Available Cars for Rent</h2>
+        <div className="row">
+            {cars.map(car => (
+                <div key={car._id} className="col-md-4 mb-4">
+                    <div className="card h-100">
+                        <img src={car.imageUrl} alt={`${car.make} ${car.model}`} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} />
+                        <div className="card-body">
+                            <h3 className="card-title">{car.make} {car.model}</h3>
+                            <p className="card-text">Year: {car.year}</p>
+                            <p className="card-text">Type: {car.type}</p>
+                            <p className="card-text">Color: {car.color}</p>
+                            <p className="card-text">Daily Price: ${car.dailyPrice}</p>
+                            <p className="card-text">{car.available ? 'Available' : 'Not Available'}</p>
+                        </div>
+                        <div className="card-footer">
+                            <button type="button" className="btn btn-primary w-100" onClick={() => seeCar(car._id)}>See This Car</button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
     </div>
-  );
+);
 };
 
 export default CarsList;

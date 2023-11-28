@@ -21,6 +21,9 @@ router.get('/show-car/:carId',isAuth,shopController.showIndividualCar);
 router.post('/add-to-cart/:carId',isAuth,shopController.addToCart);
 router.get('/show-cart',isAuth,shopController.showCart);
 router.delete('/remove-from-cart/:carId',isAuth,shopController.removeFromCart)
+router.get('/show-bookings',isAuth,shopController.showBookings)
+router.post('/bookACar/:carId',isAuth,shopController.bookCar);
+router.get('/myprofile',isAuth,shopController.getProfile);
 
 
 module.exports = router
