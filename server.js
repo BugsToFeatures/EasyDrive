@@ -3,6 +3,7 @@ var express = require('./server/config/express');
 let mongoose = require('mongoose')
 var app = express();
 
+
 // const mongoURI = 'mongodb+srv://ychuguno:12345easydrive@easydriveproject.7xmelkl.mongodb.net/EasyDrive?retryWrites=true&w=majority';
 const mongoURI = 'mongodb+srv://Sagar:Austin31658@easydriveproject.7xmelkl.mongodb.net/EasyDrive?retryWrites=true&w=majority'
 
@@ -11,7 +12,10 @@ mongoose.connect(mongoURI).then(() => {
 }).catch(err => {
     console.log(err)
 })
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+});
 app.listen(process.env.PORT || 3000);
+console.log('Server running at http://localhost:3000/');
 module.exports = app;
 
-console.log('Server running at http://localhost:3000/');

@@ -3,6 +3,7 @@ const express = require('express'),
       compress = require('compression'),
       bodyParser = require('body-parser'),
       cors = require('cors'),
+      path = require("path"),
       methodOverride = require('method-override'),
       shopRoutes = require('../routes/shopRoutes'),
       testRouter = require('../routes/testRouter'),
@@ -10,7 +11,7 @@ const express = require('express'),
 
 module.exports = function () {
     var app = express();
-
+    app.use(express.static(path.join(__dirname, "frontend", "build")))
     if (process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'));
     } else if (process.env.NODE_ENV === 'production') {
