@@ -3,6 +3,7 @@ var express = require('./server/config/express');
 let mongoose = require('mongoose')
 require('dotenv').config();
 
+const path = require('path')
 var app = express();
 
 const mongoURI = 'mongodb+srv://Sagar:Austin31658@easydriveproject.7xmelkl.mongodb.net/EasyDrive?retryWrites=true&w=majority'
