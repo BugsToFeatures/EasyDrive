@@ -1,10 +1,10 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('./server/config/express');
 let mongoose = require('mongoose')
+require('dotenv').config();
+
 var app = express();
 
-
-// const mongoURI = 'mongodb+srv://ychuguno:12345easydrive@easydriveproject.7xmelkl.mongodb.net/EasyDrive?retryWrites=true&w=majority';
 const mongoURI = 'mongodb+srv://Sagar:Austin31658@easydriveproject.7xmelkl.mongodb.net/EasyDrive?retryWrites=true&w=majority'
 
 mongoose.connect(mongoURI).then(() => {
