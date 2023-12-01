@@ -1,6 +1,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('./server/config/express');
 let mongoose = require('mongoose')
+const path = require('path')
 var app = express();
 
 
