@@ -11,7 +11,6 @@ const express = require('express'),
 
 module.exports = function () {
     var app = express();
-    app.use(express.static(path.join(__dirname, "frontend", "build")))
     if (process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'));
     } else if (process.env.NODE_ENV === 'production') {
@@ -32,6 +31,13 @@ module.exports = function () {
     app.use('/api', shopRoutes);
     app.use('/user', userRoutes); 
     app.use('/api', testRouter); 
+    __dirname = path.resolve();
+    if(process.env.NODE_ENV==='production'){
+        app.use(express.static(path.join(__dirname, "/frontend/build")));
+        app.get('*',(req,res) => {
+            res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
+        })
+    }
     
 
     return app;
