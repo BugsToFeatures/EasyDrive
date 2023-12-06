@@ -2,6 +2,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('./server/config/express');
 let mongoose = require('mongoose')
 require('dotenv').config();
+const path = require('path');
 
 const path = require('path')
 var app = express();
@@ -13,9 +14,13 @@ mongoose.connect(mongoURI).then(() => {
 }).catch(err => {
     console.log(err)
 })
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
-});
+__dirname = path.resolve();
+if(process.env.NODE_ENV==='production'){
+    app.use(express.static(path.join(__dirname, "/frontend/build")));
+    app.get('*',(req,res) => {
+        res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
+    })
+}
 app.listen(process.env.PORT || 3000);
 console.log('Server running at http://localhost:3000/');
 module.exports = app;
