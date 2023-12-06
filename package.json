@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"node server.js",
-    "build":"npm i"
+    "dev": "nodemon server.js",
+    "build": "npm i",
+    "postbuild": "cd frontend && npm install && npm run build"
   },
   "author": "Team_EasyDrive",
   "license": "ISC",
@@ -24,7 +25,9 @@
     "method-override": "^3.0.0",
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }

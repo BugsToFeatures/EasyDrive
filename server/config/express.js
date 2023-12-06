@@ -18,7 +18,7 @@ module.exports = function () {
         app.use(compress());
     }
     const corsOptions ={
-        origin:'http://localhost:3001', 
+        origin:'*', 
         credentials:true,
         optionSuccessStatus:200
     }
