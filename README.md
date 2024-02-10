@@ -1,7 +1,7 @@
 
 
 ## Download This Repo,
-## clone this app: npm clone https://github.com/BugsToFeatures/EasyDrive.git
+## clone this app: npm clone (https://github.com/Sagar31658/EasyDrive.git)
 
 ## run: node server.js
 
